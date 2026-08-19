@@ -6,17 +6,26 @@ metadata:
     alb.ingress.kubernetes.io/scheme: internet-facing # Ensure alb is reachable to public
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+
     external-dns.alpha.kubernetes.io/hostname: tracker.robs-portfolio.com
 spec:
   ingressClassName: alb # Needed for controller to reach ingress
   rules:
     - host: tracker.robs-portfolio.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: aws-load-balancer-controller
-              port:
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: nginx-service
+              port: 
                 number: 80
+
+  tls:
+  - hosts:
+    - tracker.robs-portfolio.com
+    secretName: aws-load-balancer-tls
+
+
+
