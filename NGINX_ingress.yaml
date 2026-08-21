@@ -3,9 +3,9 @@ kind: Ingress
 metadata:
   name: nginx-ingress
   annotations:
-    alb.ingress.kubernetes.io/scheme: internet-facing # Ensure alb is reachable to public
-    alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+    alb.ingress.kubernetes.io/scheme: internet-facing         # Ensure alb is reachable to public
+    alb.ingress.kubernetes.io/target-type: ip                 # Traffic will route directly to pod's ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'  # Specifies the ports that ALB used to listen on
 
     external-dns.alpha.kubernetes.io/hostname: tracker.robs-portfolio.com
 spec:

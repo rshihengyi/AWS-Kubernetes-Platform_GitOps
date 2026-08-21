@@ -16,7 +16,12 @@ spec:
       labels:
         app.kubernetes.io/name: nginx
     spec:
-      serviceAccountName: aws-load-balancer-controller
+#     serviceAccountName: aws-load-balancer-controller
       containers:
       - name: nginx
         image: nginx:latest
+        ports:
+          - containerPort: 80
+        env:
+          - name: ENVIRONMENT
+            value: "dev"
