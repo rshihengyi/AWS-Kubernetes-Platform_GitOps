@@ -3,6 +3,8 @@ kind: Service
 metadata:
   name: nginx-service
   namespace: default
+  annotations:
+     service.beta.kubernetes.io/aws-load-balancer-scheme: internal
 spec:
   type: LoadBalancer
   selector: 
