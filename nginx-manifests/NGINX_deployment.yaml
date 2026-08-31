@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: default
+  labels:
+    app.kubernetes.io/name: nginx
+    app.kubernetes.io/component: frontend
+    # app.kubernetes.io/part-of: internal-network-testing
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+#     serviceAccountName: aws-load-balancer-controller
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+          - containerPort: 80
+        env:
+          - name: ENVIRONMENT
+            value: "dev"
