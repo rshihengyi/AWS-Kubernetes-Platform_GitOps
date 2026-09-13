@@ -2,13 +2,13 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: argocd-ingress
-  namespace: default
+  namespace: argocd
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing         # Ensure alb is reachable to public
     alb.ingress.kubernetes.io/target-type: ip                 # Traffic will route directly to pod's ip
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'  # Specifies the ports that ALB used to listen on
     alb.ingress.kubernetes.io/backend-protocol: "HTTPS"        # Ensures backend communication uses HTTPS since ALB usually communicates with HTTP
-
+    alb.ingress.kubernetes.io/certificate-arn: ${{ secrets.ACM_CERT }}
     external-dns.alpha.kubernetes.io/hostname: argocd.robs-portfolio.com
 spec:
   ingressClassName: alb # Needed for controller to reach ingress
@@ -20,6 +20,6 @@ spec:
           pathType: Prefix
           backend:
             service:
-              name: argocd-server 
-              port: 
-                number: 80
+              name: argocd-server
+              port:
+                number: 443
