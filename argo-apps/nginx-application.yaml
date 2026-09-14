@@ -6,9 +6,9 @@ metadata:
 spec:
  project: default
  source:
-   repoURL: https://github.com/rshihengyi/AWS-Kubernetes-Platform_GitOps.git
+   repoURL: https://github.com/rshihengyi/AWS-Enterprise-Kubernetes-Platform_GitOps.git
    targetRevision: main
-   path: nginx-manifests
+   path: nginx-chart
  destination:
    server: https://kubernetes.default.svc
    namespace: default

@@ -7,12 +7,12 @@ metadata:
     alb.ingress.kubernetes.io/scheme: internet-facing         # Ensure alb is reachable to public
     alb.ingress.kubernetes.io/target-type: ip                 # Traffic will route directly to pod's ip
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS": 443}]'  # Specifies the ports that ALB used to listen on
-    alb.ingress.kubernetes.io/certificate-arn: ${{ secrets.ACM_CERT }}
-    external-dns.alpha.kubernetes.io/hostname: nginx.robs-portfolio.com
+    alb.ingress.kubernetes.io/certificate-arn: {{ .Values.certArn }}
+    external-dns.alpha.kubernetes.io/hostname: {{ .Values.hostname }}
 spec:
   ingressClassName: alb # Needed for controller to reach ingress
   rules:
-    - host: nginx.robs-portfolio.com
+    - host: {{ .Values.hostname }}
       http:
         paths:
         - path: /
