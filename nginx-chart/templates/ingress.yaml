@@ -8,6 +8,7 @@ metadata:
     alb.ingress.kubernetes.io/target-type: ip                 # Traffic will route directly to pod's ip
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS": 443}]'  # Specifies the ports that ALB used to listen on
     alb.ingress.kubernetes.io/certificate-arn: {{ .Values.certArn }}
+    alb.ingress.kubernetes.io/backend-protocol: "HTTPS"
     external-dns.alpha.kubernetes.io/hostname: {{ .Values.hostname }}
 spec:
   ingressClassName: alb # Needed for controller to reach ingress
