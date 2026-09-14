@@ -4,7 +4,7 @@ metadata:
   name: nginx-deployment
   namespace: nginx
   labels:
-    app.kubernetes.io/name: default
+    app.kubernetes.io/name: nginx
     app.kubernetes.io/component: frontend
     # app.kubernetes.io/part-of: internal-network-testing
 spec:
