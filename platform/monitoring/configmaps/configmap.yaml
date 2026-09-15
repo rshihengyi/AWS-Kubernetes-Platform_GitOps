@@ -1,0 +1,54 @@
+# Purpose: Adds custom health checks to argocd-cm configmap
+# Reason:  ArgoCD does not know how to check the health of Prometheus-specific resources by default
+
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argocd
+data:
+  resource.customizations.health.monitoring.coreos.com_Prometheus: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.conditions ~= nil then
+        for i, condition in ipairs(obj.status.conditions) do
+          if condition.type == "Available" and condition.status == "True" then
+            hs.status = "Healthy"
+            hs.message = "Prometheus is available"
+            return hs
+          end
+          if condition.type == "Reconciled" and condition.status == "False" then
+            hs.status = "Degraded"
+            hs.message = condition.message
+            return hs
+          end
+        end
+      end
+      hs.status = "Progressing"
+      hs.message = "Waiting for Prometheus to be available"
+    else
+      hs.status = "Progressing"
+      hs.message = "Waiting for status"
+    end
+    return hs
+
+  resource.customizations.health.monitoring.coreos.com_Alertmanager: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.conditions ~= nil then
+        for i, condition in ipairs(obj.status.conditions) do
+          if condition.type == "Available" and condition.status == "True" then
+            hs.status = "Healthy"
+            hs.message = "Alertmanager is available"
+            return hs
+          end
+        end
+      end
+      hs.status = "Progressing"
+      hs.message = "Waiting for Alertmanager"
+    else
+      hs.status = "Progressing"
+      hs.message = "Waiting for status"
+    end
+    return hs
